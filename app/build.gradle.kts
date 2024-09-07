@@ -55,6 +55,7 @@ dependencies {
     // room
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
+    implementation(libs.room.rxjava3)
     ksp(libs.room.compiler)
 
     // rx

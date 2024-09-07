@@ -9,6 +9,7 @@ import javax.inject.Singleton
     modules = [
         AppModule::class,
         NavigationModule::class,
+        NotesModule::class,
     ]
 )
 @Singleton

@@ -1,4 +1,4 @@
-package com.example.wachanga.domain
+package com.example.wachanga.domain.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

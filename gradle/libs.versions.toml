@@ -37,6 +37,7 @@ moxy-androidx = { group = "com.github.moxy-community", name = "moxy-androidx", v
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+room-rxjava3 = { group = "androidx.room", name = "room-rxjava3", version.ref = "room" }
 
 # rx
 rx-java = { group = "io.reactivex.rxjava3", name = "rxjava", version.ref = "rxjava" }

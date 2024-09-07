@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.wachanga.R
 import com.example.wachanga.WachangaApplication
-import com.example.wachanga.domain.Note
+import com.example.wachanga.domain.model.Note
 import moxy.MvpAppCompatFragment
 import moxy.presenter.InjectPresenter
 
