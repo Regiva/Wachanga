@@ -31,6 +31,7 @@ androidx-constraintlayout = { group = "androidx.constraintlayout", name = "const
 moxy = { group = "com.github.moxy-community", name = "moxy", version.ref = "moxy" }
 moxy-compiler = { group = "com.github.moxy-community", name = "moxy-compiler", version.ref = "moxy" }
 moxy-android = { group = "com.github.moxy-community", name = "moxy-android", version.ref = "moxy" }
+moxy-androidx = { group = "com.github.moxy-community", name = "moxy-androidx", version.ref = "moxy" }
 
 # room
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }

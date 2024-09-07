@@ -49,6 +49,7 @@ dependencies {
     // moxy
     implementation(libs.moxy)
     implementation(libs.moxy.android)
+    implementation(libs.moxy.androidx)
     ksp(libs.moxy.compiler)
 
     // room

@@ -9,6 +9,10 @@ class WachangaApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        initDI()
+    }
+
+    private fun initDI() {
         appComponent = DaggerAppComponent.builder()
             .appModule(AppModule(this))
             .build()
