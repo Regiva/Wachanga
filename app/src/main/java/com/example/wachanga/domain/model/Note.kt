@@ -6,6 +6,7 @@ import androidx.room.PrimaryKey
 @Entity
 data class Note(
     @PrimaryKey val id: Long? = null,
-    val content: String,
-    val done: Boolean,
+    val content: String = "",
+    val done: Boolean = false,
+    val reminder: Boolean = false,
 )

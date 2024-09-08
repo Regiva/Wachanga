@@ -9,4 +9,7 @@ import moxy.viewstate.strategy.StateStrategyType
 interface AddEditNoteView : MvpView {
     fun showAddScreen()
     fun showEditScreen(note: Note)
+    fun showReminderOn()
+    fun showReminderOff()
+    fun showAlarmPermissionSnackbar()
 }
