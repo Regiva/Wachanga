@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.wachanga.domain.model.Note
 import com.example.wachanga.domain.usecase.AddNoteUseCase
 import com.example.wachanga.domain.usecase.GetNotesUseCase
+import com.example.wachanga.navigation.Screens
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.BackpressureStrategy
@@ -36,7 +37,7 @@ class MainPresenter @Inject constructor(
         disposables.clear()
     }
 
-    private fun getNotes() {
+    fun getNotes() {
         val disposable = getNotesUseCase()
             .observeOn(AndroidSchedulers.mainThread())
             .flatMap { items ->
@@ -56,18 +57,19 @@ class MainPresenter @Inject constructor(
                         viewState.hideEmpty()
                         val (notes, completed) = items.partition { note -> !note.done }
                         if (notes.isNotEmpty()) {
-                            viewState.showNotes(notes)
+                            viewState.showNotes(notes.sortedByDescending { it.id })
                         } else {
                             viewState.hideNotes()
                         }
                         if (completed.isNotEmpty()) {
-                            viewState.showCompleted(completed)
+                            viewState.showCompleted(completed.sortedByDescending { it.id })
                         } else {
                             viewState.hideCompleted()
                         }
                     }
                 },
                 { error ->
+                    // TODO: viewState.showError() -> Toast
                     Log.e(this::class.simpleName, error.message ?: "Unknown error")
                 }
             )
@@ -87,25 +89,11 @@ class MainPresenter @Inject constructor(
     }
 
     fun onNoteClicked(note: Note) {
-        // TODO: router.navigateTo(Screens.Detail)
+        router.navigateTo(Screens.Detail(note.id))
     }
 
     fun onAddClicked() {
-        // TODO: add/edit note screen
-        val disposable = Completable.fromCallable {
-            addNoteUseCase(
-                Note(
-                    id = null,
-                    content = "Заметка",
-                    done = false,
-                )
-            )
-        }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe()
-
-        disposables.addAll(disposable)
+        router.navigateTo(Screens.Detail())
     }
 }
 

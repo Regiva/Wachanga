@@ -7,4 +7,13 @@
 
     <style name="Theme.Wachanga" parent="Base.Theme.Wachanga" />
 
+    <style name="RoundedFloatingActionButton" parent="Widget.MaterialComponents.ExtendedFloatingActionButton">
+        <item name="shapeAppearanceOverlay">@style/RoundShapeAppearance</item>
+    </style>
+
+    <style name="RoundShapeAppearance">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
 </resources>

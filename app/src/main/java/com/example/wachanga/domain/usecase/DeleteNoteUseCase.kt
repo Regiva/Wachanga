@@ -4,11 +4,11 @@ import com.example.wachanga.domain.model.Note
 import com.example.wachanga.domain.repository.NoteRepository
 import javax.inject.Inject
 
-class AddNoteUseCase @Inject constructor(
-    private val repository: NoteRepository,
+class DeleteNoteUseCase @Inject constructor(
+    private val noteRepository: NoteRepository,
 ) {
 
     operator fun invoke(note: Note) {
-        repository.insertNote(note)
+        noteRepository.deleteNote(note)
     }
 }
