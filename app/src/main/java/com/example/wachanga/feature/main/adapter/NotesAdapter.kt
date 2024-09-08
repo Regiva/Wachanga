@@ -1,5 +1,6 @@
 package com.example.wachanga.feature.main.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -36,7 +37,11 @@ class NotesAdapter(
             payloads.forEach { payload ->
                 when (payload) {
                     is Payload.Checked -> holder.bindChecked(payload.done)
-                    is Payload.Content -> holder.bindContent(payload.content)
+                    is Payload.Content -> {
+                        // TODO: check payload
+                        Log.d("rere", payload.content)
+                        holder.bindContent(payload.content)
+                    }
                 }
             }
         } else {
@@ -97,8 +102,8 @@ class NotesAdapter(
         }
 
         override fun areContentsTheSame(oldItem: Note, newItem: Note): Boolean {
-            return oldItem.done == newItem.done
-                    && oldItem.content == newItem.content
+            return oldItem.content == newItem.content
+                    && oldItem.done == newItem.done
         }
 
         override fun getChangePayload(oldItem: Note, newItem: Note): Any {

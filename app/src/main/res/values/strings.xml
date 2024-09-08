@@ -4,5 +4,13 @@
     <string name="main_screen_hide">Скрыть выполненнные</string>
     <string name="main_screen_show">Отобразить выполненнные</string>
     <string name="main_screen_empty">Заметок пока нет.\nНажмите + чтобы добавить заметку</string>
-    <string name="main_screen_flb_content_description">Добавить заметку</string>
+    <string name="main_screen_flb_content_description">Кнопка добавить заметку</string>
+
+    <string name="add_note_screen_toolbar">Новая заметка</string>
+    <string name="edit_note_screen_toolbar">Заметка</string>
+    <string name="add_edit_note_screen_toolbar_reminder">Reminder</string>
+    <string name="add_edit_note_screen_toolbar_delete">Delete</string>
+    <string name="add_edit_screen_til_hint">Текст заметки</string>
+    <string name="add_edit_screen_action_reminder_content_description">Кнопка добавить напоминание к заметке</string>
+    <string name="add_edit_screen_action_delete_content_description">Кнопка удалить заметку</string>
 </resources>

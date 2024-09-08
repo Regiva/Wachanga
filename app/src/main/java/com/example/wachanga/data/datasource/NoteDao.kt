@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.wachanga.domain.model.Note
 import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Single
 
 @Dao
 interface NoteDao {
@@ -15,10 +16,10 @@ interface NoteDao {
     fun getNotes(): Flowable<List<Note>>
 
     @Query("SELECT * from note WHERE id = :id")
-    fun getNoteById(id: Long): Note?
+    fun getNoteById(id: Long): Single<Note>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertNote(note: Note): Long
+    fun insertNote(note: Note)
 
     @Delete
     fun deleteNote(note: Note)

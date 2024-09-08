@@ -38,7 +38,7 @@ class MainFragment : MvpAppCompatFragment(), MainView {
 
     private val completedAdapter by lazy {
         NotesAdapter(
-            onItemClickedListener = presenter::onNoteClicked,
+            onItemClickedListener = {},
             onCheckboxClickedListener = presenter::onCheckboxClicked,
         )
     }
@@ -62,6 +62,11 @@ class MainFragment : MvpAppCompatFragment(), MainView {
         initNotesRecycler()
         initCompletedRecycler()
         setOnClickListeners()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        presenter.getNotes()
     }
 
     override fun onDestroyView() {

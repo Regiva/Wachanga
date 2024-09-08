@@ -7,7 +7,7 @@
         <clip-path android:pathData="M0,0h24v24h-24z" />
         <path
             android:fillAlpha="0.87"
-            android:fillColor="#000000"
+            android:fillColor="#fff"
             android:pathData="M7.41,15.41L12,10.83L16.59,15.41L18,14L12,8L6,14L7.41,15.41Z" />
     </group>
 </vector>
