@@ -8,4 +8,12 @@ import moxy.viewstate.strategy.StateStrategyType
 @StateStrategyType(AddToEndSingleStrategy::class)
 interface MainView : MvpView {
     fun showNotes(notes: List<Note>)
+    fun hideNotes()
+    fun showCompleted(notes: List<Note>)
+    fun hideCompleted()
+    fun hideAllContent()
+    fun showEmpty()
+    fun hideEmpty()
+    fun showLoading()
+    fun hideLoading()
 }

@@ -7,7 +7,7 @@ interface NoteRepository {
 
     fun getNotes(): Flowable<List<Note>>
 
-    fun getNoteById(id: Int): Note?
+    fun getNoteById(id: Long): Note?
 
     fun insertNote(note: Note): Long
 

@@ -2,11 +2,16 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.kapt)
 }
 
 android {
     namespace = "com.example.wachanga"
     compileSdk = 34
+
+    viewBinding {
+        enable = true
+    }
 
     defaultConfig {
         applicationId = "com.example.wachanga"
@@ -42,6 +47,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.recycler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -50,7 +56,8 @@ dependencies {
     implementation(libs.moxy)
     implementation(libs.moxy.android)
     implementation(libs.moxy.androidx)
-    ksp(libs.moxy.compiler)
+    implementation(libs.moxy.ktx)
+    kapt(libs.moxy.compiler)
 
     // room
     implementation(libs.room.runtime)

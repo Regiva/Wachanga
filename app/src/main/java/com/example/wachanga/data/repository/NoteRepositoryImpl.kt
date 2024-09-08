@@ -14,7 +14,7 @@ class NoteRepositoryImpl @Inject constructor(
         return dao.getNotes()
     }
 
-    override fun getNoteById(id: Int): Note? {
+    override fun getNoteById(id: Long): Note? {
         return dao.getNoteById(id)
     }
 

@@ -24,6 +24,7 @@ class MainActivity : MvpAppCompatActivity() {
     private val navigator: Navigator = AppNavigator(this, R.id.container)
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        (application as WachangaApplication).appComponent.inject(this)
         super.onCreate(savedInstanceState)
         enableEdgeToEdge(
             SystemBarStyle.light(
@@ -37,7 +38,6 @@ class MainActivity : MvpAppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        WachangaApplication.appComponent.inject(this)
         router.newRootScreen(Screens.Main)
     }
 
