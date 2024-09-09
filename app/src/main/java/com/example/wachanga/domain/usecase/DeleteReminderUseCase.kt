@@ -1,6 +1,5 @@
 package com.example.wachanga.domain.usecase
 
-import android.util.Log
 import com.example.wachanga.domain.model.Note
 import com.example.wachanga.domain.repository.NoteRepository
 import com.example.wachanga.feature.reminder.data.ReminderManager
@@ -15,7 +14,6 @@ class DeleteReminderUseCase @Inject constructor(
         if (note.id != null) {
             reminderManager.stopReminder(note.id)
             noteRepository.insertNote(note.copy(reminder = false))
-            Log.d("rere", "use case")
         }
     }
 }

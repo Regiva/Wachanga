@@ -4,7 +4,7 @@ import com.example.wachanga.data.datasource.NoteDao
 import com.example.wachanga.domain.model.Note
 import com.example.wachanga.domain.repository.NoteRepository
 import io.reactivex.rxjava3.core.Flowable
-import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.core.Observable
 import javax.inject.Inject
 
 class NoteRepositoryImpl @Inject constructor(
@@ -15,7 +15,7 @@ class NoteRepositoryImpl @Inject constructor(
         return dao.getNotes()
     }
 
-    override fun getNoteById(id: Long): Single<Note> {
+    override fun getNoteById(id: Long): Observable<Note> {
         return dao.getNoteById(id)
     }
 

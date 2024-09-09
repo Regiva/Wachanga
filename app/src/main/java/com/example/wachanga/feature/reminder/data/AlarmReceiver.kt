@@ -8,6 +8,7 @@ import android.content.Intent
 import androidx.core.app.NotificationCompat
 import com.example.wachanga.MainActivity
 import com.example.wachanga.R
+import com.example.wachanga.WachangaApplication
 import com.example.wachanga.domain.model.Note
 import com.example.wachanga.domain.usecase.DeleteReminderUseCase
 import com.example.wachanga.feature.reminder.data.AlarmReceiver.Companion.NOTIFICATION_ID
@@ -25,18 +26,19 @@ class AlarmReceiver : BroadcastReceiver() {
     lateinit var deleteReminderUseCase: DeleteReminderUseCase
 
     override fun onReceive(context: Context, intent: Intent) {
+        (context.applicationContext as WachangaApplication).appComponent.inject(this)
         val title = context.getString(R.string.reminder_notification_note_title)
         val content = intent.getStringExtra("note_content")
             ?: context.getString(R.string.reminder_notification_note_content)
-        val noteId = intent.getIntExtra("note_id", -1)
+        val noteId = intent.getLongExtra("note_id", -1)
         sendReminderNotification(context, title, content)
         deleteReminder(noteId, content)
     }
 
-    private fun deleteReminder(noteId: Int, content: String) {
-        if (noteId != -1) {
+    private fun deleteReminder(noteId: Long, content: String) {
+        if (noteId != -1L) {
             goAsync {
-                deleteReminderUseCase(Note(noteId.toLong(), content))
+                deleteReminderUseCase(Note(noteId, content))
             }
         }
     }

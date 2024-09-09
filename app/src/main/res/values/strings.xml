@@ -19,4 +19,6 @@
     <string name="reminder_notification_note_content">Текст заметки</string>
     <string name="reminder_notification_channel_id">137</string>
     <string name="reminder_notification_channel_name">Reminder</string>
+    <string name="exact_alarm_snackbar_description">Нужно разрешение для точных уведомлений</string>
+    <string name="exact_alarm_snackbar_action">Настройки</string>
 </resources>

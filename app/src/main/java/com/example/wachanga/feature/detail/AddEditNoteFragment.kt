@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -88,7 +87,6 @@ class AddEditNoteFragment : MvpAppCompatFragment(), AddEditNoteView {
         with(binding.actionReminder) {
             setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_bell_on))
             setOnClickListener {
-                Log.d("rere", "ON -> DELETE")
                 presenter.deleteReminder(noteContent)
             }
         }
@@ -98,20 +96,16 @@ class AddEditNoteFragment : MvpAppCompatFragment(), AddEditNoteView {
         with(binding.actionReminder) {
             setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_bell_off))
             setOnClickListener {
-                Log.d("rere", "OFF -> ADD")
                 presenter.addReminder(noteContent)
             }
         }
     }
 
-    // TODO: не изменяется иконка колокольчика
-    // TODO: по нажатию на уведомление не переходит на главный экран - done
-
     @RequiresApi(Build.VERSION_CODES.S)
     override fun showAlarmPermissionSnackbar() {
-        // TODO: extract strings
-        Snackbar.make(requireView(), "Нужно разрешение для точных уведомлений", Snackbar.LENGTH_LONG)
-            .setAction("Настройки") {
+        Snackbar.make(requireView(),
+            getString(R.string.exact_alarm_snackbar_description), Snackbar.LENGTH_LONG)
+            .setAction(getString(R.string.exact_alarm_snackbar_action)) {
                 val intent = Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
                 requireContext().startActivity(intent)
             }

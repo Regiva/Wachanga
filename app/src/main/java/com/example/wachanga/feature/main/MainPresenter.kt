@@ -7,9 +7,7 @@ import com.example.wachanga.domain.usecase.GetNotesUseCase
 import com.example.wachanga.navigation.Screens
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.BackpressureStrategy
 import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import moxy.InjectViewState
@@ -29,7 +27,7 @@ class MainPresenter @Inject constructor(
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         viewState.showLoading()
-        getNotes()
+        hideLoadingWithDelay()
     }
 
     override fun onDestroy() {
@@ -37,18 +35,20 @@ class MainPresenter @Inject constructor(
         disposables.clear()
     }
 
+    fun hideLoadingWithDelay() {
+        val disposable = Completable.timer(1, TimeUnit.SECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                viewState.hideLoading()
+                getNotes()
+            }
+
+        disposables.add(disposable)
+    }
+
     fun getNotes() {
         val disposable = getNotesUseCase()
             .observeOn(AndroidSchedulers.mainThread())
-            .flatMap { items ->
-                Observable.timer(1, TimeUnit.SECONDS)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .doOnNext {
-                        viewState.hideLoading()
-                    }
-                    .map { items }
-                    .toFlowable(BackpressureStrategy.BUFFER)
-            }
             .subscribe(
                 { items ->
                     if (items.isEmpty()) {
@@ -74,7 +74,7 @@ class MainPresenter @Inject constructor(
                 }
             )
 
-        disposables.addAll(disposable)
+        disposables.add(disposable)
     }
 
     fun onCheckboxClicked(note: Note) {
@@ -85,7 +85,7 @@ class MainPresenter @Inject constructor(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe()
 
-        disposables.addAll(disposable)
+        disposables.add(disposable)
     }
 
     fun onNoteClicked(note: Note) {

@@ -26,7 +26,7 @@ class ReminderManager @Inject constructor(
         }
 
         if (canScheduleExactAlarms()) {
-            // TODO:
+            // TODO: 10 sec for testing
             val triggerTimeInMillis = System.currentTimeMillis() + TEN_SECONDS_MILLIS
 //            val triggerTimeInMillis = Calendar.getInstance().time.time + TEN_MINUTES_MILLIS
             alarmManager.setExact(
