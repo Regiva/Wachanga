@@ -1,10 +1,10 @@
 package com.example.wachanga.feature.main.adapter
 
-import android.util.Log
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wachanga.databinding.NotesAdapterItemBinding
 import com.example.wachanga.domain.model.Note
@@ -12,9 +12,8 @@ import com.example.wachanga.domain.model.Note
 class NotesAdapter(
     private val onItemClickedListener: (Note) -> Unit,
     private val onCheckboxClickedListener: (Note) -> Unit,
-) : RecyclerView.Adapter<NotesAdapter.Holder>() {
-
-    private val itemsDiffer = AsyncListDiffer(this, DiffCallback())
+    private val completed: Boolean,
+) : ListAdapter<Note, NotesAdapter.Holder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(
@@ -23,11 +22,12 @@ class NotesAdapter(
                 parent,
                 false,
             ),
+            completed,
         )
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        itemsDiffer.currentList.getOrNull(position)?.let { item ->
+        getItem(position)?.let { item ->
             holder.bindAll(item)
         }
     }
@@ -37,11 +37,7 @@ class NotesAdapter(
             payloads.forEach { payload ->
                 when (payload) {
                     is Payload.Checked -> holder.bindChecked(payload.done)
-                    is Payload.Content -> {
-                        // TODO: check payload
-                        Log.d("rere", payload.content)
-                        holder.bindContent(payload.content)
-                    }
+                    is Payload.Content -> holder.bindContent(payload.content)
                 }
             }
         } else {
@@ -49,34 +45,20 @@ class NotesAdapter(
         }
     }
 
-    override fun getItemCount(): Int = itemsDiffer.currentList.size
-
-    fun submitItems(notes: List<Note>) {
-        itemsDiffer.submitList(notes)
-    }
-
     inner class Holder(
-        val binding: NotesAdapterItemBinding,
+        private val binding: NotesAdapterItemBinding,
+        private val completed: Boolean,
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        init {
-            itemView.setOnClickListener { view ->
-                itemsDiffer.currentList.getOrNull(bindingAdapterPosition)?.let { note ->
-                    notifyItemChanged(bindingAdapterPosition)
-                    onItemClickedListener.invoke(note)
-                    notifyItemChanged(bindingAdapterPosition)
-                }
-            }
-        }
-
         internal fun bindAll(item: Note) {
-            val checked = getChecked(item)
-            val content = getContent(item)
-            binding.checkbox.isChecked = checked
+            itemView.setOnClickListener {
+                onItemClickedListener.invoke(item)
+            }
+            bindChecked(item.done)
+            bindContent(item.content)
             binding.checkbox.setOnClickListener {
                 onCheckboxClickedListener(item)
             }
-            binding.tvContent.text = content
         }
 
         internal fun bindChecked(checked: Boolean) {
@@ -84,26 +66,26 @@ class NotesAdapter(
         }
 
         internal fun bindContent(content: String) {
-            binding.tvContent.text = content
+            if (completed) {
+                binding.tvContent.apply {
+                    text = content
+                    paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                }
+                binding.tvContent.alpha = 0.5f
+            } else {
+                binding.tvContent.text = content
+                binding.tvContent.alpha = 1f
+            }
         }
     }
 
-    private fun getChecked(item: Note): Boolean {
-        return item.done
-    }
-
-    private fun getContent(item: Note): String {
-        return item.content
-    }
-
-    private inner class DiffCallback : DiffUtil.ItemCallback<Note>() {
+    private class DiffCallback : DiffUtil.ItemCallback<Note>() {
         override fun areItemsTheSame(oldItem: Note, newItem: Note): Boolean {
             return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: Note, newItem: Note): Boolean {
-            return oldItem.content == newItem.content
-                    && oldItem.done == newItem.done
+            return oldItem.content == newItem.content && oldItem.done == newItem.done
         }
 
         override fun getChangePayload(oldItem: Note, newItem: Note): Any {
@@ -129,5 +111,4 @@ class NotesAdapter(
         @JvmInline
         value class Content(val content: String) : Payload
     }
-
 }

@@ -33,6 +33,7 @@ class MainFragment : MvpAppCompatFragment(), MainView {
         NotesAdapter(
             onItemClickedListener = presenter::onNoteClicked,
             onCheckboxClickedListener = presenter::onCheckboxClicked,
+            completed = false,
         )
     }
 
@@ -40,6 +41,7 @@ class MainFragment : MvpAppCompatFragment(), MainView {
         NotesAdapter(
             onItemClickedListener = {},
             onCheckboxClickedListener = presenter::onCheckboxClicked,
+            completed = true,
         )
     }
 
@@ -76,7 +78,9 @@ class MainFragment : MvpAppCompatFragment(), MainView {
 
     override fun showNotes(notes: List<Note>) {
         binding.rvNotes.isVisible = true
-        notesAdapter.submitItems(notes)
+        binding.rvNotes.itemAnimator?.isRunning {
+            notesAdapter.submitList(notes)
+        }
     }
 
     override fun hideNotes() {
@@ -85,7 +89,9 @@ class MainFragment : MvpAppCompatFragment(), MainView {
 
     override fun showCompleted(notes: List<Note>) {
         binding.completedGroup.isVisible = true
-        completedAdapter.submitItems(notes)
+        binding.rvCompleted.itemAnimator?.isRunning {
+            completedAdapter.submitList(notes)
+        }
     }
 
     override fun hideCompleted() {

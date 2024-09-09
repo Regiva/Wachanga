@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Wachanga</string>
+
     <string name="main_screen_toolbar">Список заметок</string>
     <string name="main_screen_hide">Скрыть выполненнные</string>
     <string name="main_screen_show">Отобразить выполненнные</string>
@@ -13,4 +14,11 @@
     <string name="add_edit_screen_til_hint">Текст заметки</string>
     <string name="add_edit_screen_action_reminder_content_description">Кнопка добавить напоминание к заметке</string>
     <string name="add_edit_screen_action_delete_content_description">Кнопка удалить заметку</string>
+
+    <string name="reminder_notification_note_title">Заметка</string>
+    <string name="reminder_notification_note_content">Текст заметки</string>
+    <string name="reminder_notification_channel_id">137</string>
+    <string name="reminder_notification_channel_name">Reminder</string>
+    <string name="exact_alarm_snackbar_description">Нужно разрешение для точных уведомлений</string>
+    <string name="exact_alarm_snackbar_action">Настройки</string>
 </resources>

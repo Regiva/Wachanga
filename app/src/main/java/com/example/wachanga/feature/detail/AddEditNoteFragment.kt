@@ -1,15 +1,21 @@
 package com.example.wachanga.feature.detail
 
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.example.wachanga.R
 import com.example.wachanga.WachangaApplication
 import com.example.wachanga.databinding.FragmentAddEditNoteBinding
 import com.example.wachanga.domain.model.Note
 import com.example.wachanga.util.argument
+import com.google.android.material.snackbar.Snackbar
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import javax.inject.Inject
@@ -20,6 +26,9 @@ class AddEditNoteFragment : MvpAppCompatFragment(), AddEditNoteView {
 
     private var _binding: FragmentAddEditNoteBinding? = null
     private val binding get() = _binding!!
+
+    private val noteContent: String
+        get() = binding.etNote.text.toString()
 
     @Inject
     lateinit var presenterFactory: AddEditNotePresenter.Factory
@@ -48,16 +57,13 @@ class AddEditNoteFragment : MvpAppCompatFragment(), AddEditNoteView {
 
     private fun setOnClickListeners() {
         binding.flbSave.setOnClickListener {
-            presenter.saveNote(binding.etNote.text.toString())
+            presenter.saveNote(noteContent)
         }
     }
 
     private fun initToolbar() {
         binding.toolbar.setNavigationOnClickListener {
             presenter.onBackPressed()
-        }
-        binding.actionReminder.setOnClickListener {
-            presenter.addReminder()
         }
         binding.actionDelete.setOnClickListener {
             presenter.deleteNote()
@@ -66,17 +72,44 @@ class AddEditNoteFragment : MvpAppCompatFragment(), AddEditNoteView {
 
     override fun showAddScreen() {
         binding.toolbar.setTitle(R.string.add_note_screen_toolbar)
-        binding.actionReminder.isVisible = true
+        binding.actionReminder.isVisible = false
         binding.actionDelete.isVisible = false
     }
 
     override fun showEditScreen(note: Note) {
         binding.toolbar.setTitle(R.string.edit_note_screen_toolbar)
         binding.actionReminder.isVisible = true
-        // TODO: reminder issue #6
-        binding.actionReminder.setImageResource(R.drawable.ic_bell_off)
         binding.actionDelete.isVisible = true
         binding.etNote.setText(note.content)
+    }
+
+    override fun showReminderOn() {
+        with(binding.actionReminder) {
+            setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_bell_on))
+            setOnClickListener {
+                presenter.deleteReminder(noteContent)
+            }
+        }
+    }
+
+    override fun showReminderOff() {
+        with(binding.actionReminder) {
+            setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_bell_off))
+            setOnClickListener {
+                presenter.addReminder(noteContent)
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.S)
+    override fun showAlarmPermissionSnackbar() {
+        Snackbar.make(requireView(),
+            getString(R.string.exact_alarm_snackbar_description), Snackbar.LENGTH_LONG)
+            .setAction(getString(R.string.exact_alarm_snackbar_action)) {
+                val intent = Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
+                requireContext().startActivity(intent)
+            }
+            .show()
     }
 
     companion object {
